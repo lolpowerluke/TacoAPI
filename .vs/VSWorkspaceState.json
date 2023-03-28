@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\tacoapi",
+    "\\tacoapi\\src",
+    "\\tacoapi\\src\\main",
+    "\\tacoapi\\src\\main\\java",
+    "\\tacoapi\\src\\main\\java\\group",
+    "\\tacoapi\\src\\main\\java\\group\\tacoapi",
+    "\\tacoapi\\src\\main\\java\\group\\tacoapi\\tacoapi",
+    "\\tacoapi\\src\\test\\java",
+    "\\tacoapi\\src\\test\\java\\group",
+    "\\tacoapi\\src\\test\\java\\group\\tacoapi",
+    "\\tacoapi\\src\\test\\java\\group\\tacoapi\\tacoapi"
+  ],
+  "SelectedNode": "\\tacoapi\\mvnw.cmd",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,2 +1,0 @@
-# TacoAPI
-Backend for Taco
