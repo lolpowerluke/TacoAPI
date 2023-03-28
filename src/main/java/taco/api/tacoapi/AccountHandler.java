@@ -34,6 +34,7 @@ public class AccountHandler {
     //  /Account/create?username=[fillIn]&password=[fillIn]
     @GetMapping("/create")
     public String createAccount(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password) throws IOException{
+       
         //make new account with data from parameters
         Account acc = new Account(totallyRealDatabase.size(), username, password);
         //add account to database
