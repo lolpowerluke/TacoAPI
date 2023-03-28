@@ -1,0 +1,4 @@
+taco\api\tacoapi\TacoapiApplication.class
+taco\api\tacoapi\AccountHandler.class
+taco\api\tacoapi\Klasses\Account.class
+taco\api\tacoapi\FunctionLib\JSONhelper.class
