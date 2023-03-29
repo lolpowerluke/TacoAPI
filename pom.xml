@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>group.tacoapi</groupId>
 	<artifactId>tacoapi</artifactId>
-	<version>TacoAPI.0.3</version>
+	<version>TacoAPI.0.3.1</version>
 	<name>tacoapi</name>
 	<description>Spring boot API project for Taco</description>
 	<packaging>war</packaging>

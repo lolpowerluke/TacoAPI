@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 //own klasses/imported libraries
 import taco.api.tacoapi.FunctionLib.*;
 import taco.api.tacoapi.Klasses.*;
@@ -83,5 +86,19 @@ public class AppointmentHandler {
 
         //return dat de lijst leeg is
         return String.format("List is empty!");
+    }
+
+    // /appointment/remove?name=[fillIn]
+    @GetMapping("/remove")
+    public String removeAppointment(@RequestParam(value = "name") String name) throws IOException{
+            //removed de appointment met de gegeven naam
+            for (Appointment appointment : totallyRealDatabase) {
+                if(appointment.appName.equals(name)){
+                    totallyRealDatabase.remove(appointment);
+                    return "Succes!";
+                }
+            }
+
+        return "Failed, appointment doesn't exist!";
     }
 }

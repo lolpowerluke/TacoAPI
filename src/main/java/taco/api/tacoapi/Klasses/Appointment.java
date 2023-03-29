@@ -8,7 +8,10 @@ public class Appointment {
     public String appDesc;
     public String geplandMoment;
     
+
+    
    //constructor for Appointment => Appointment "" = new Appointment();
+
     public Appointment(String name, String desc, LocalDateTime moment) {
         //set appointment name
         this.appName = name;
