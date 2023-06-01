@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.FlashMap;
 
 //own klasses/imported libraries
 import taco.api.tacoapi.FunctionLib.*;
@@ -33,7 +34,7 @@ public class AccountHandler {
 
     //  /Account/create?username=[fillIn]&password=[fillIn]
     @GetMapping("/create")
-    public String createAccount(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password) throws IOException{
+    public String createAccount(@RequestParam("username") String username, @RequestParam(value = "password") String password) throws IOException{
        
         //make new account with data from parameters
         Account acc = new Account(totallyRealDatabase.size(), username, password);
@@ -46,7 +47,7 @@ public class AccountHandler {
 
     // /Account/get?id=[fillIn]
     @GetMapping("/get")
-    public String getAccountByUsername(@RequestParam(value = "id") int id) throws IOException{
+    public String getAccountByUsername(@RequestParam("ID") int id) throws IOException{
         //get account by ID
         Account acc = totallyRealDatabase.get(id);
 
@@ -64,5 +65,15 @@ public class AccountHandler {
 
         //return dat de lijst leeg is
         return String.format("List is empty!");
+    }
+
+    @GetMapping("/Check")
+    public Boolean checkAccountDetails(@RequestParam("Username") String username, @RequestParam("Password") String password) throws IOException{
+        //"SELECT * FROM `account` WHERE `Username` LIKE '" + username + "' AND `Password` LIKE '" + password + "'"
+        if(true){
+            return true;
+        }
+
+        return false;
     }
 }
