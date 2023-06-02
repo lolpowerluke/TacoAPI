@@ -106,9 +106,9 @@ public class AppointmentHandler {
 
 
     @GetMapping("/dayView")
-    public String dayView(@RequestParam(value ="day") LocalDate day) throws JsonProcessingException {
-
-        return JSONhelper.getDefaultObjectMapper().writeValueAsString(DayOverview.dayView(day));
+    public String dayView(@RequestParam(value ="date") String date) throws JsonProcessingException {
+        //http://192.168.1.2:8080/tacoapi-TacoAPI.1.0.0/Appointment/dayView?date=04-05-2024
+        return JSONhelper.getDefaultObjectMapper().writeValueAsString(DayOverview.dayView(date));
     }
 
     @GetMapping("/weekView")
