@@ -2,10 +2,11 @@ package taco.api.tacoapi;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MonthOverview {
 
-    public static void monthView(LocalDate startDay, LocalDate endDay){
+    public static ArrayList<ResultSet> monthView(LocalDate startDay, LocalDate endDay){
 
         try{
             //this makes the connection
@@ -39,11 +40,16 @@ public class MonthOverview {
             ResultSet resultSet3= statement.executeQuery(queryPersonalSched);
 
             // hier beslissen wat met de data te doen
+            ArrayList<ResultSet> resultSets = new ArrayList<>();
+            resultSets.add(resultSet1);
+            resultSets.add(resultSet2);
+            resultSets.add(resultSet3);
 
             statement.close();
-
+            return resultSets;
         }catch(Exception e){
             System.err.println(e.getMessage());}
+        return null;
     }
 
 

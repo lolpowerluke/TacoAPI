@@ -6,10 +6,12 @@ package taco.api.tacoapi;
 
 //intellisense
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 //mapping
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,6 +90,9 @@ public class AppointmentHandler {
     // /appointment/remove?name=[fillIn]
     @GetMapping("/remove")
     public String removeAppointment(@RequestParam(value = "name") String name) throws IOException{
+
+
+
             //removed de appointment met de gegeven naam
             for (Appointment appointment : totallyRealDatabase) {
                 if(appointment.appName.equals(name)){
@@ -97,5 +102,30 @@ public class AppointmentHandler {
             }
 
         return "Failed, appointment doesn't exist!";
+    }
+
+
+    @GetMapping("/dayView")
+    public String dayView(@RequestParam(value ="day") LocalDate day) throws JsonProcessingException {
+
+        return JSONhelper.getDefaultObjectMapper().writeValueAsString(DayOverview.dayView(day));
+    }
+
+    @GetMapping("/weekView")
+    public String weekView(@RequestParam(value= "startday") LocalDate startday,@RequestParam(value="endday") LocalDate endday) throws JsonProcessingException {
+
+        return JSONhelper.getDefaultObjectMapper().writeValueAsString(WeekOverview.weekView(startday,endday));
+    }
+
+    @GetMapping("/monthView")
+    public String monthView(@RequestParam(value= "startday") LocalDate startday,@RequestParam(value="endday") LocalDate endday) throws JsonProcessingException {
+
+        return JSONhelper.getDefaultObjectMapper().writeValueAsString(MonthOverview.monthView(startday,endday));
+    }
+
+    @GetMapping("/AssignmentView")
+    public String AssignmentView () throws JsonProcessingException {
+
+        return JSONhelper.getDefaultObjectMapper().writeValueAsString(AssignmentOverview.assignments());
     }
 }
