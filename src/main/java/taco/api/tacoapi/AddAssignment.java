@@ -16,7 +16,7 @@ public class AddAssignment {
             String link = ""; //to be filled in
             Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO assignment VALUES ("+timeneeded+","+duedate+",'"+name+"','"+description+"' );");
+            statement.executeUpdate("INSERT INTO assignment VALUES ("+timeneeded+", "+duedate+", '"+name+"', '"+description+"' );");
 
 
             conn.close();

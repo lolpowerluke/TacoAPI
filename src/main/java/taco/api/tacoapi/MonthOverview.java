@@ -18,19 +18,19 @@ public class MonthOverview {
             String queryPersonalSched = "select t.id,time, PersonalActivity_id, name, description, location\n" +
                     "FROM timeslot t\n" +
                     "JOIN PersonalActivity p ON (t.PersonalActivity_id = p.id)\n" +
-                    "where time between"+startDay +"00/00/00 and "+endDay+"23/59/59 \n" +
+                    "where time between "+startDay +"/00/00/00 and "+endDay+"/23/59/59 \n" +
                     "Order by time asc;";
 
             String queryClassSched= "select t.id, time, Class_id, name,description,location\n" +
                     "FROM timeslot t\n" +
                     "join class c on (t.class_id = c.id)\n" +
-                    "where time between"+startDay +"00/00/00 and "+endDay+"23/59/59 \n" +
+                    "where time between "+startDay +"/00/00/00 and "+endDay+"/23/59/59 \n" +
                     "order by time asc;\n";
 
             String queryAssignmentSched= "select t.id, time, Assignment_id, name,description,duedate\n" +
                     "FROM timeslot t\n" +
                     "join assignment a on (t.assignment_id = a.id)\n" +
-                    "where time between"+startDay +"00/00/00 and "+endDay+"23/59/59 \n" +
+                    "where time between "+startDay +"/00/00/00 and "+endDay+"/23/59/59 \n" +
                     "order by time asc;";
 
             Statement statement = conn.createStatement();

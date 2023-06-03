@@ -4,14 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DayOverview {
 
-    public static ArrayList<ResultSet> dayView(String date){
+    public static ArrayList<ResultSet> dayView(LocalDate date){
         try{
-            String bdatumfc = "STR_TO_DATE('" + date + " 00:00:00', '%D-%m-%Y %H:%i:%S')";
-            String edatumfc = "STR_TO_DATE('" + date + " 23:59:59', '%D-%m-%Y %H:%i:%S')";
+            String bdatumfc = date + "/00/00/00";
+            String edatumfc = date + "/23/59/59";
             
             //this makes the connection
             String driver = ""; //to be filled in
