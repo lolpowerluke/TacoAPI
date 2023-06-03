@@ -3,7 +3,6 @@ package taco.api.tacoapi;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -48,10 +47,6 @@ public class AddTimeslot {
         }
     }
     public static boolean AddTimeslotPersonal(LocalDateTime time, int userid, int PersonalActivityID){
-
-
-
-
         try{
 
             String link = ""; //to be filled in
