@@ -13,8 +13,8 @@ public class AddAssignment {
 
         try{
 
-            String link = ""; //to be filled in
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
             statement.executeUpdate("INSERT INTO assignment VALUES ("+timeneeded+", "+duedate+", '"+name+"', '"+description+"' );");
 

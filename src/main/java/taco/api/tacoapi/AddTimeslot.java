@@ -14,8 +14,8 @@ public class AddTimeslot {
 
         try{
 
-            String link = ""; //to be filled in
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
             statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+","+assignmentID+",null,null );");
 
@@ -33,8 +33,8 @@ public class AddTimeslot {
 
         try{
 
-            String link = ""; //to be filled in
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
             statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+",null,"+ClassID+",null );");
 
@@ -49,8 +49,8 @@ public class AddTimeslot {
     public static boolean AddTimeslotPersonal(LocalDateTime time, int userid, int PersonalActivityID){
         try{
 
-            String link = ""; //to be filled in
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
             statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+",null,null,"+PersonalActivityID+" );");
 
