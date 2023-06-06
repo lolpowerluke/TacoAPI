@@ -128,4 +128,9 @@ public class AppointmentHandler {
 
         return JSONhelper.getDefaultObjectMapper().writeValueAsString(AssignmentOverview.assignments());
     }
+
+    @GetMapping("/hello")
+    public String hello(){
+        return "hello world";
+    }
 }

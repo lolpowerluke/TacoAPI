@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class DayOverview {
 
@@ -13,13 +14,25 @@ public class DayOverview {
         try{
             String bdatumfc = date + "/00/00/00";
             String edatumfc = date + "/23/59/59";
-            
-            //this makes the connection
-            String driver = ""; //to be filled in
-            String link = ""; //to be filled in
-            Class.forName(driver);
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
 
+            //this makes the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
+
+
+
+           /* MysqlDataSource dataSource= new MysqlDataSource();
+            dataSource.setServerName("localhost");
+            dataSource.setPort(3306);
+            dataSource.setUser("student");
+            dataSource.setPassword("Student1");
+            dataSource.setDatabaseName("database_taco");
+
+
+            Connection connection = DriverManager.getConnection(dataSource);
+*/
             String queryPersonalSched = "select t.id,time, PersonalActivity_id, name, description, location\n" +
                     "FROM timeslot t\n" +
                     "JOIN PersonalActivity p ON (t.PersonalActivity_id = p.id)\n" +
@@ -51,10 +64,10 @@ public class DayOverview {
             resultSets.add(resultSet2);
             resultSets.add(resultSet3);
 
-            statement.close();
+            conn.close();
             return resultSets;
         }catch(Exception e){
-            System.err.println(e.getMessage());}
-        return null;
+            System.out.println(e.getMessage());
+        return null ;}
     }
 }

@@ -10,10 +10,10 @@ public class MonthOverview {
 
         try{
             //this makes the connection
-            String driver = ""; //to be filled in
-            String link = ""; //to be filled in
-            Class.forName(driver);
-            Connection conn = DriverManager.getConnection(link, "username","password"); //again to be filled in
+
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
 
             String queryPersonalSched = "select t.id,time, PersonalActivity_id, name, description, location\n" +
                     "FROM timeslot t\n" +
