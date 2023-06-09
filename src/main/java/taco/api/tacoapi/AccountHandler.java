@@ -31,17 +31,16 @@ public class AccountHandler {
     //Temp list ==> "database"
     public ArrayList<Account> totallyRealDatabase = new ArrayList<Account>();
 
-    //  /Account/create?username=[fillIn]&password=[fillIn]
+    //  /Account/create?username=[fillIn]&password=[fillIn]&firstname=[fillIn]&lastname=[fillIn]
     @GetMapping("/create")
-    public String createAccount(@RequestParam("username") String username, @RequestParam(value = "password") String password) throws IOException{
-       
-        //make new account with data from parameters
-        Account acc = new Account(totallyRealDatabase.size(), username, password);
-        //add account to database
-        totallyRealDatabase.add(acc);
-
+    public String createAccount(@RequestParam("username") String username, @RequestParam(value = "password") String password, @RequestParam(value = "firstname") String firstname, @RequestParam(value = "lastname") String lastname){
         //return een json van het acc object
-        return JSONhelper.getDefaultObjectMapper().writeValueAsString(acc);
+        String succes = AddUser.addUser(username, firstname, lastname, password);
+
+        if(succes.split(",").length > 1)
+            return succes.split(",")[0] + ", error: " + succes.split(",")[1];
+        else
+            return succes;
     }
 
     // /Account/get?id=[fillIn]
@@ -64,15 +63,5 @@ public class AccountHandler {
 
         //return dat de lijst leeg is
         return String.format("List is empty!");
-    }
-
-    @GetMapping("/Check")
-    public Boolean checkAccountDetails(@RequestParam("Username") String username, @RequestParam("Password") String password) throws IOException{
-        //"SELECT * FROM `account` WHERE `Username` LIKE '" + username + "' AND `Password` LIKE '" + password + "'"
-        if(true){
-            return true;
-        }
-
-        return false;
     }
 }

@@ -5,13 +5,13 @@ package taco.api.tacoapi;
 ////////////////////////////////////////////////////////////////////////
 
 //intellisense
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 //mapping
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,80 +35,37 @@ public class AppointmentHandler {
     public ArrayList<Appointment> totallyRealDatabase = new ArrayList<Appointment>();
 
     // /Appointment/create?name=[fillIn]&desc=[fillIn]
-    @GetMapping("/create")
-    public String createAppointment(@RequestParam(value = "name") String name, @RequestParam(value = "desc") String desc) throws IOException{
-
-        //make new date for appointment => check other appointments
-        LocalDateTime date = LocalDateTime.now();
-        
-        //make new account with data from parameters
-        Appointment app = new Appointment(name, desc, date);
-        //add account to database
-        totallyRealDatabase.add(app);
-
-        //return een json van het acc object
-        return JSONhelper.getDefaultObjectMapper().writeValueAsString(app);
-    }
+    //@GetMapping("/create")
+    //public String createAppointment(@RequestParam(value = "name") String name, @RequestParam(value = "desc") String desc) throws IOException{
 
     // /Appointment/get?name=[fillIn]
-    @GetMapping("/get")
-    public String getAppointment(@RequestParam(value = "name") String name) throws IOException{
-        
-        //temp vars
-        Appointment app = new Appointment(null, null, null);
-        boolean found = false;
-
-        //zoek app in de lijst
-        for (Appointment appointment : totallyRealDatabase) {
-            if(appointment.appName.equals(name)){
-                app = appointment;
-                found = true;
-                break;
-            }
-        }
-
-        //als app is gevonden
-        if(found)
-            //return een json van het acc object
-            return JSONhelper.getDefaultObjectMapper().writeValueAsString(app);
-        else
-            return "This appointment doesn't exist in our database!";
-    }
-
-    // /Appointment/getAll
-    @GetMapping("/getAll")
-    public String getAllAppointments() throws IOException{
-        //if count of names in database > 0
-        if(!totallyRealDatabase.isEmpty())
-            //return een json van de list met acc objecten
-            return JSONhelper.getDefaultObjectMapper().writeValueAsString(totallyRealDatabase);
-
-        //return dat de lijst leeg is
-        return String.format("List is empty!");
-    }
-
+    //@GetMapping("/get")
+    //public String getAppointment(@RequestParam(value = "name") String name) throws IOException{
+     
     // /appointment/remove?name=[fillIn]
-    @GetMapping("/remove")
-    public String removeAppointment(@RequestParam(value = "name") String name) throws IOException{
-
-
-
-            //removed de appointment met de gegeven naam
-            for (Appointment appointment : totallyRealDatabase) {
-                if(appointment.appName.equals(name)){
-                    totallyRealDatabase.remove(appointment);
-                    return "Succes!";
-                }
-            }
-
-        return "Failed, appointment doesn't exist!";
-    }
-
+    //@GetMapping("/remove")
+    //public String removeAppointment(@RequestParam(value = "name") String name) throws IOException{
 
     @GetMapping("/dayView")
     public String dayView(@RequestParam(value ="date") LocalDate date) throws JsonProcessingException {
-        //http://192.168.1.2:8080/tacoapi-TacoAPI.1.0.0/Appointment/dayView?date=2024-05-04
+        //http://192.168.1.2:8080/tacoapi-TacoAPI.1.0.0/Appointment/dayView?date=2023-05-05
         return JSONhelper.getDefaultObjectMapper().writeValueAsString(DayOverview.dayView(date));
+    }
+
+    @GetMapping("/dayViewtest")
+    public String dayViewtest(@RequestParam(value ="date") LocalDate date) throws JsonProcessingException {
+        try {
+            //http://192.168.1.2:8080/tacoapi-TacoAPI.1.0.0/Appointment/dayViewtest?date=2023-05-05
+            ArrayList<ArrayList<JSONObject>> jArrayList = DayOverview.dayViewtest(date);
+            JSONObject json = new JSONObject();
+            json.put("assignments", jArrayList.get(0));
+            json.put("classes", jArrayList.get(1));
+            json.put("personal", jArrayList.get(2));
+            
+            return DayOverview.dayViewtest(date).toString();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping("/weekView")

@@ -3,12 +3,19 @@ package taco.api.tacoapi;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import com.mysql.cj.jdbc.MysqlDataSource;
+
+import org.json.JSONObject;
 
 public class DayOverview {
+    enum type{
+        Assignment,
+        Class,
+        Personal
+    }
 
     public static ArrayList<ResultSet> dayView(LocalDate date){
         try{
@@ -29,8 +36,6 @@ public class DayOverview {
             dataSource.setUser("student");
             dataSource.setPassword("Student1");
             dataSource.setDatabaseName("database_taco");
-
-
             Connection connection = DriverManager.getConnection(dataSource);
 */
             String queryPersonalSched = "select t.id,time, PersonalActivity_id, name, description, location\n" +
@@ -69,5 +74,69 @@ public class DayOverview {
         }catch(Exception e){
             System.out.println(e.getMessage());
         return null ;}
+    }
+
+    public static ArrayList<ArrayList<JSONObject>> dayViewtest(LocalDate date){
+        try{
+            String bdatumfc = date + " 00:00:00";
+            String edatumfc = date + " 23:59:59";
+
+            //this makes the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+
+            Connection conn = DriverManager.getConnection(link, "student","Student1");
+
+            String queryPersonalSched = "select t.id,time, name, description, location FROM timeslot t JOIN PersonalActivity p ON (t.PersonalActivity_id = p.id) WHERE t.time between '"+ 
+                                        bdatumfc + "' and '" + edatumfc +"';";
+
+            String queryClassSched = "select t.id, time, name,description,location FROM timeslot t join class c on (t.class_id = c.id) WHERE t.time between '" + 
+                                     bdatumfc + "' and '" + edatumfc +"';";
+
+            String queryAssignmentSched = "SELECT t.id, time, name,description,duedate FROM timeslot t join assignment a on (t.assignment_id = a.id) WHERE t.time between '"+ 
+                                          bdatumfc + "' and '" + edatumfc +"';";
+
+            Statement statement = conn.createStatement();
+            ArrayList<ArrayList<JSONObject>> resultSets = new ArrayList<>();
+
+            ResultSet resultSet1 = statement.executeQuery(queryAssignmentSched);
+            resultSets.add(makeResult(resultSet1, type.Assignment));
+
+            ResultSet resultSet2 = statement.executeQuery(queryClassSched);
+            resultSets.add(makeResult(resultSet2, type.Class));
+            
+
+            ResultSet resultSet3 = statement.executeQuery(queryPersonalSched);
+            resultSets.add(makeResult(resultSet3, type.Personal));
+            
+            statement.close();
+            conn.close();
+            return resultSets;
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    private static ArrayList<JSONObject> makeResult(ResultSet resultSet, type t){
+        try {
+            ArrayList<JSONObject> jArray = new ArrayList<JSONObject>();
+            while(resultSet.next()){
+                JSONObject jObject = new JSONObject();
+                jObject.put("id", resultSet.getString(1));
+                jObject.put("time", resultSet.getString(2));
+                jObject.put("name", resultSet.getString(3));
+                jObject.put("description", resultSet.getString(4));
+                if(t == type.Class || t == type.Personal)
+                    jObject.put("location", resultSet.getString(5));
+                else if (t == type.Assignment)
+                    jObject.put("duedate", resultSet.getString(5));
+                jObject.put("type", t);
+                jArray.add(jObject);
+            }
+            return jArray;
+        } catch (SQLException e) {
+            return null;
+        }
     }
 }
