@@ -9,9 +9,6 @@ import java.time.temporal.ChronoUnit;
 public class AddTimeslot {
 
     public static boolean AddTimeslotAssignment(LocalDateTime time, int userid, int assignmentID){
-
-
-
         try{
 
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
