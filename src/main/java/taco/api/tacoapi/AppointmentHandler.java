@@ -87,7 +87,7 @@ public class AppointmentHandler {
                 LocalDate date = LocalDate.of(startday.getYear(), startday.getMonth(), i);
                 jsonMonth.add(DayOverview.dayView(date));
             }
-            return jsonMonth.toString() + jsonMonth.size();
+            return jsonMonth.toString();
         } catch (Exception e) {
             return null;
         }
