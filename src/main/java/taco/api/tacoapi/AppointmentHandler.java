@@ -5,12 +5,18 @@ package taco.api.tacoapi;
 ////////////////////////////////////////////////////////////////////////
 
 //intellisense
+import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.json.JSONObject;
 
 //mapping
 
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 //own klasses/imported libraries
 import taco.api.tacoapi.FunctionLib.*;
+
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -51,7 +59,8 @@ public class AppointmentHandler {
     @GetMapping("/dayView")
     public String dayView(@RequestParam(value ="date") LocalDate date){
         try {
-            return DayOverview.dayView(date).toString();
+
+            return DayOverview.dayView(date,date).toString();
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -61,18 +70,13 @@ public class AppointmentHandler {
     @GetMapping("/weekView")
     public String weekView(@RequestParam(value= "day") LocalDate startday) {
         ArrayList<ArrayList<ArrayList<JSONObject>>> jsonMonth = new ArrayList<ArrayList<ArrayList<JSONObject>>>();
-
+        LocalDate endday= startday.plusDays(6);
         try {
-            int bdag = 0;
-            if(startday.getDayOfWeek().getValue() > 1)
-                bdag = startday.getDayOfMonth() - startday.getDayOfWeek().getValue();
-            else
-                bdag = startday.getDayOfMonth();
 
-            for(int i = bdag; i < bdag + 7; i++){
-                LocalDate date = LocalDate.of(startday.getYear(), startday.getMonth(), i);
-                jsonMonth.add(DayOverview.dayView(date));
-            }
+
+
+                jsonMonth.add(DayOverview.dayView(startday, endday));
+
             return jsonMonth.toString();
         } catch (Exception e) {
             return null;
@@ -83,14 +87,65 @@ public class AppointmentHandler {
     @GetMapping("/monthView")
     public String monthView(@RequestParam(value= "startday") LocalDate startday){
         ArrayList<ArrayList<ArrayList<JSONObject>>> jsonMonth = new ArrayList<ArrayList<ArrayList<JSONObject>>>();
+        LocalDate endday= startday.with(lastDayOfMonth());
         try {
-            for(int i = startday.getDayOfMonth(); i <= startday.lengthOfMonth(); i++){
-                LocalDate date = LocalDate.of(startday.getYear(), startday.getMonth(), i);
-                jsonMonth.add(DayOverview.dayView(date));
-            }
+
+                jsonMonth.add(DayOverview.dayView(startday,endday));
+
             return jsonMonth.toString();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @GetMapping("/AssignmentPlan")
+    public ArrayList returnPossibles(@RequestParam(value = "duedate") LocalDate duedate){
+        ArrayList<LocalDateTime> possibleArray= new ArrayList();
+        ArrayList<LocalDateTime> filledArray= new ArrayList();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate i = LocalDate.now();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+        String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+
+        Connection conn = DriverManager.getConnection(link, "student","Student1");
+
+        String query = "select time FROM timeslot  WHERE time between '"+
+                LocalDate.now() + "' and '" + duedate +"';";
+            Statement statement = conn.createStatement();
+            ResultSet resultSet1 = statement.executeQuery(query);
+
+            while (resultSet1.next()){
+                Timestamp tempTimestamp= resultSet1.getTimestamp("time");
+                Instant tempvalue = tempTimestamp.toInstant();
+                LocalDateTime tempDT= LocalDateTime.ofInstant(tempvalue, ZoneOffset.systemDefault());
+                String temp= tempDT.format(formatter);
+                LocalDateTime DT =LocalDateTime.parse(temp,formatter);
+                filledArray.add(DT);
+            }
+            statement.close();
+            conn.close();
+
+            while ( i != duedate){
+
+                for (int h=0;h<24;h++){
+                    for (int m=0;m<60;m=m+30){
+                        LocalDateTime testTime=i.atTime(h,m,00);
+                        if (filledArray.contains(testTime)==false){
+                            possibleArray.add(testTime);
+                        }
+                    }
+
+                }
+
+                i.plusDays(1);
+            }
+
+        return possibleArray;
+
+        } catch (Exception e) {
+            throw null;
         }
     }
 }

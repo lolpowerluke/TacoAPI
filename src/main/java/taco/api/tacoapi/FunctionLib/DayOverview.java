@@ -12,10 +12,10 @@ import org.json.JSONObject;
 import taco.api.tacoapi.Classes.*;
 
 public class DayOverview {
-        public static ArrayList<ArrayList<JSONObject>> dayView(LocalDate date){
+        public static ArrayList<ArrayList<JSONObject>> dayView(LocalDate startday, LocalDate endday){
         try{
-            String bdatumfc = date + " 00:00:00";
-            String edatumfc = date + " 23:59:59";
+            String bdatumfc = startday + " 00:00:00";
+            String edatumfc = endday + " 23:59:59";
 
             //this makes the connection
             Class.forName("com.mysql.jdbc.Driver");
