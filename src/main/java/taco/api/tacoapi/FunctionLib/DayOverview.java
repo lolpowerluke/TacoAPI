@@ -52,5 +52,22 @@ public class DayOverview {
         catch(Exception e){
             return null;
         }
+
+    }
+
+
+    public boolean deletetimeslot(int id) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
+
+            Connection conn = DriverManager.getConnection(link, "student", "Student1");
+            Statement statement = conn.createStatement();
+            ResultSet deleteID = statement.executeQuery("DELETE FROM timeslot WHERE id="+id+";");
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

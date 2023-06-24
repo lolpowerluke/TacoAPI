@@ -61,6 +61,7 @@ public class AppointmentHandler {
     @GetMapping("/weekView")
     public String weekView(@RequestParam(value= "day") LocalDate startday) {
         ArrayList<ArrayList<ArrayList<JSONObject>>> jsonMonth = new ArrayList<ArrayList<ArrayList<JSONObject>>>();
+
         try {
             int bdag = 0;
             if(startday.getDayOfWeek().getValue() > 1)
