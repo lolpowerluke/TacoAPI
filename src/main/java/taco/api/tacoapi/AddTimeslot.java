@@ -21,7 +21,8 @@ public class AddTimeslot {
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
             Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+","+assignmentID+",null,null );");
+            statement.executeUpdate("INSERT INTO timeslot ( time, User_id, Assignment_id) VALUES ('"+time+"', "+userid+" , "+assignmentID+" );");
+
 
 
             conn.close();
@@ -41,7 +42,7 @@ public class AddTimeslot {
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
             Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+",null,"+ClassID+",null );");
+            statement.executeUpdate("INSERT INTO timeslot ( time, User_id, Class_id) VALUES ('"+time+"', "+userid+" , "+ClassID+" );");
 
 
             conn.close();
@@ -58,7 +59,7 @@ public class AddTimeslot {
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
             Connection conn = DriverManager.getConnection(link, "student","Student1");
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO timeslot VALUES ("+time.truncatedTo(ChronoUnit.SECONDS)+","+userid+",null,null,"+PersonalActivityID+" );");
+            statement.executeUpdate("INSERT INTO timeslot ( time, User_id, PersonalActivity_id) VALUES ('"+time+"', "+userid+" , "+PersonalActivityID+" );");
 
 
             conn.close();
