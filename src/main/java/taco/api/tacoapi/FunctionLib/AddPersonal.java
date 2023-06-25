@@ -11,7 +11,7 @@ public class AddPersonal {
 
     public static JSONObject Personaladd(String location, String name, String description){
         String values = ",'" + location + "','" + name + "','" + description + "'";
-        return executeUpdateJSON.executeUpdate(values, "personalactivity");
+        return executeUpdateJSON.executeUpdate(values, "personalactivity",name);
     }
 
     public boolean deletePersonal(int id) {

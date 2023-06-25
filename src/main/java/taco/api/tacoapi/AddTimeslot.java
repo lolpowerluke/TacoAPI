@@ -1,14 +1,21 @@
 package taco.api.tacoapi;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-
+@RestController
+@RequestMapping("/Create")
 public class AddTimeslot {
 
-    public static boolean AddTimeslotAssignment(LocalDateTime time, int userid, int assignmentID){
+    @GetMapping("/AssignmentTimeslot")
+    public static boolean AddTimeslotAssignment(@RequestParam(value="time") LocalDateTime time,@RequestParam(value="id") int userid,@RequestParam(value="assignmentID") int assignmentID){
         try{
 
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";
@@ -24,7 +31,8 @@ public class AddTimeslot {
             return false;
         }
     }
-    public static boolean AddTimeslotClass(LocalDateTime time, int userid, int ClassID){
+    @GetMapping("/ClassTimeslot")
+    public static boolean AddTimeslotClass(@RequestParam(value="time") LocalDateTime time,@RequestParam(value="id") int userid,@RequestParam(value="classID") int ClassID){
 
 
 
@@ -43,7 +51,8 @@ public class AddTimeslot {
             return false;
         }
     }
-    public static boolean AddTimeslotPersonal(LocalDateTime time, int userid, int PersonalActivityID){
+    @GetMapping("/PersonalTimeslot")
+    public static boolean AddTimeslotPersonal(@RequestParam(value="time") LocalDateTime time,@RequestParam(value="id") int userid,@RequestParam(value="personalActivityID") int PersonalActivityID){
         try{
 
             String link = "jdbc:mysql://192.168.1.2:3306/database_taco";

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import org.json.JSONObject;
 
 public class executeUpdateJSON{
-    public static JSONObject executeUpdate(String values, String tablename) {
+    public static JSONObject executeUpdate(String values, String tablename, String name) {
         JSONObject returnjson = new JSONObject();
         try{
 
@@ -30,6 +30,9 @@ public class executeUpdateJSON{
                 
                 conn.close();
                 returnjson.put("succes", true);
+                returnjson.put("name", name);
+
+
 
                 return returnjson;
             }

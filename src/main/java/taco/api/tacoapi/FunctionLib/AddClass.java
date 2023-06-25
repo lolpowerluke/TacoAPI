@@ -11,7 +11,7 @@ public class AddClass {
 
     public static JSONObject Classadd(String location, String name, String description){
         String values = ",'" + location + "','" + name + "','" + description + "'";
-        return executeUpdateJSON.executeUpdate(values, "class");
+        return executeUpdateJSON.executeUpdate(values, "class",name);
     }
 
     public boolean deleteClass(int id) {

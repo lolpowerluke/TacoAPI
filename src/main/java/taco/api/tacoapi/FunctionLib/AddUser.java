@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class AddUser {
     public static JSONObject addUser(String username, String firstname, String lastname, String password){
         String values = ",'" + username + "','" + firstname + "','" + lastname + "','" + password + "'";
-        return executeUpdateJSON.executeUpdate(values, "user");
+        return executeUpdateJSON.executeUpdate(values, "user",firstname);
     }
     public boolean deleteUser(int id) {
         try {

@@ -40,6 +40,7 @@ public class AppointmentHandler {
     // http://192.168.1.2:8080/tacoapi-TacoAPI.1.0.0/Appointment/createAssignment?timeneeded=4&due=2023-05-03&name=test&desc=hello world
     @GetMapping("/createAssignment")
     public String createAssignment(@RequestParam(value = "time") int timeneeded, @RequestParam(value = "due") LocalDate duedate, @RequestParam(value = "name") String name, @RequestParam(value = "desc") String desc){
+
         return AddAssignment.Asignmentadd(timeneeded, duedate, name, desc).toString();
     }
 
