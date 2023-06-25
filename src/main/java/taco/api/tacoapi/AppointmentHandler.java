@@ -102,8 +102,11 @@ public class AppointmentHandler {
     public ArrayList returnPossibles(@RequestParam(value = "duedate") LocalDate duedate){
         ArrayList<LocalDateTime> possibleArray= new ArrayList();
         ArrayList<LocalDateTime> filledArray= new ArrayList();
+        ArrayList<String> testArray= new ArrayList();
+        testArray.add("testing");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDate i = LocalDate.now();
+        boolean factor= false;
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -112,7 +115,7 @@ public class AppointmentHandler {
         Connection conn = DriverManager.getConnection(link, "student","Student1");
 
         String query = "select time FROM timeslot  WHERE time between '"+
-                LocalDate.now() + "' and '" + duedate +"';";
+                i + "' and '" + duedate +"';";
             Statement statement = conn.createStatement();
             ResultSet resultSet1 = statement.executeQuery(query);
 
@@ -127,9 +130,9 @@ public class AppointmentHandler {
             statement.close();
             conn.close();
 
-            while ( i != duedate){
+            while ( factor==false){
 
-                for (int h=0;h<24;h++){
+                for (int h=16;h<24;h++){
                     for (int m=0;m<60;m=m+30){
                         LocalDateTime testTime=i.atTime(h,m,00);
                         if (filledArray.contains(testTime)==false){
@@ -139,13 +142,16 @@ public class AppointmentHandler {
 
                 }
 
-                i.plusDays(1);
+                i=i.plusDays(1);
+                if (i.equals(duedate)){
+                    factor=true;
+                }
             }
 
         return possibleArray;
 
         } catch (Exception e) {
-            throw null;
+            throw new ArithmeticException("error");
         }
     }
 }
